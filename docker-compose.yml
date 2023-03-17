@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  app:
+    image: boat:app_17
+    restart: on-failure
+    ports:
+      - 5555:5555
+    environment:
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=hello
+      - MYSQL_DB=boats
+      - MYSQL_URL=jdbc:mysql://docker-mysql:3306
+    depends_on:
+      - docker-mysql
+
+  docker-mysql:
+    image: mysql:8.0
+    volumes:
+      - boat-mysql-data:/var/lib/mysql
+    restart: always
+    ports:
+      - 3309:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=hello
+      - MYSQL_DATABASE=boats
+      - MYSQL_PASSWORD=hello
+volumes:
+  boat-mysql-data:
+
